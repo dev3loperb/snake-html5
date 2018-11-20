@@ -15,7 +15,6 @@ class SnakeItem {
         this.x = x;
         this.y = y;
         this.image = image;
-        this.direction = Direction.right;
     }
 }
 
@@ -29,16 +28,36 @@ const tailImage = new Image();
 tailImage.src = "img/tail.png";
 
 const step = function () {
-    for (let index in snake) {
-        switch (snake[index].direction) {
-            case Direction.right:
-                console.log("RIGHT");
-                snake[index].x++;
-                break;
-            case Direction.left:
-                snake[index].x--;
-                break;
-        }
+    if ("ArrowUp" in keysDown) {
+        snakeHead.direction = Direction.up;
+    }
+    if ("ArrowDown" in keysDown) {
+        snakeHead.direction = Direction.down;
+    }
+    if ("ArrowLeft" in keysDown) {
+        snakeHead.direction = Direction.left;
+    }
+    if ("ArrowRight" in keysDown) {
+        snakeHead.direction = Direction.right;
+    }
+
+    for (let i = snake.length - 1; i >= 1; --i) {
+        snake[i].x = snake[i - 1].x;
+        snake[i].y = snake[i - 1].y;
+    }
+    switch (snake[0].direction) {
+        case Direction.right:
+            snake[0].x++;
+            break;
+        case Direction.left:
+            snake[0].x--;
+            break;
+        case Direction.up:
+            snake[0].y--;
+            break;
+        case Direction.down:
+            snake[0].y++;
+            break;
     }
 };
 
@@ -54,12 +73,29 @@ const render = function () {
 const SnakeType = {"head": 1, "body": 2, "tail": 3};
 const Direction = {"up": 1, "left": 2, "down": 3, "right": 4};
 const snakeHead = new SnakeItem(SnakeType.head, 5, 5, headImage);
-const snake = [snakeHead, new SnakeItem(SnakeType.body, 4, 5, bodyImage), new SnakeItem(SnakeType.tail, 3, 5, tailImage)];
+snakeHead.direction = Direction.right;
+const snake = [snakeHead,
+    new SnakeItem(SnakeType.body, 4, 5, bodyImage),
+    new SnakeItem(SnakeType.body, 3, 5, bodyImage),
+    new SnakeItem(SnakeType.body, 2, 5, bodyImage),
+    new SnakeItem(SnakeType.body, 1, 5, bodyImage),
+    new SnakeItem(SnakeType.tail, 0, 5, tailImage)
+];
 const food = {};
 food.image = new Image();
 food.image.src = "img/food.png";
 food.x = Math.random() * canvas.width / 20;
 food.y = Math.random() * canvas.height / 20;
+
+const keysDown = {};
+
+addEventListener("keydown", function (e) {
+    keysDown[e.key] = true;
+}, false);
+
+addEventListener("keyup", function (e) {
+    delete keysDown[e.key];
+}, false);
 
 render();
 setInterval(function () {
