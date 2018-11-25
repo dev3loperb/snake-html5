@@ -84,8 +84,10 @@ const snake = [snakeHead,
 const food = {};
 food.image = new Image();
 food.image.src = "img/food.png";
-food.x = Math.random() * canvas.width / 20;
-food.y = Math.random() * canvas.height / 20;
+food.x = Math.floor(Math.random() * canvas.width / 20);
+food.y = Math.floor(Math.random() * canvas.height / 20);
+console.log("food x is " + food.x);
+console.log("food y is " + food.y);
 
 const keysDown = {};
 
