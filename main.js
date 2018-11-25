@@ -27,6 +27,7 @@ bodyImage.src = "img/body.png";
 const tailImage = new Image();
 tailImage.src = "img/tail.png";
 
+let eaten = false;
 const step = function () {
     if ("ArrowUp" in keysDown) {
         snakeHead.direction = Direction.up;
@@ -40,10 +41,15 @@ const step = function () {
     if ("ArrowRight" in keysDown) {
         snakeHead.direction = Direction.right;
     }
-
-    for (let i = snake.length - 1; i >= 1; --i) {
-        snake[i].x = snake[i - 1].x;
-        snake[i].y = snake[i - 1].y;
+    
+    if (!eaten) {    
+        for (let i = snake.length - 1; i >= 1; --i) {
+            snake[i].x = snake[i - 1].x;
+            snake[i].y = snake[i - 1].y;
+        }
+    } else {
+        snake.splice(1, 0, new SnakeItem(SnakeType.body, snake[0].x, snake[0].y, bodyImage));
+        eaten = false;
     }
     switch (snake[0].direction) {
         case Direction.right:
@@ -60,6 +66,7 @@ const step = function () {
             break;
     }
     if (food.x == snake[0].x && food.y == snake[0].y) {
+        eaten = true;
         generateFoodLocation();
     }
 };
