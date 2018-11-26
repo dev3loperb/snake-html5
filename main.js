@@ -29,16 +29,16 @@ tailImage.src = "img/tail.png";
 
 let eaten = false;
 const step = function () {
-    if ("ArrowUp" in keysDown) {
+    if ("ArrowUp" in keysDown && snakeHead.direction != Direction.down) {
         snakeHead.direction = Direction.up;
     }
-    if ("ArrowDown" in keysDown) {
+    if ("ArrowDown" in keysDown && snakeHead.direction != Direction.up) {
         snakeHead.direction = Direction.down;
     }
-    if ("ArrowLeft" in keysDown) {
+    if ("ArrowLeft" in keysDown && snakeHead.direction != Direction.right) {
         snakeHead.direction = Direction.left;
     }
-    if ("ArrowRight" in keysDown) {
+    if ("ArrowRight" in keysDown && snakeHead.direction != Direction.left) {
         snakeHead.direction = Direction.right;
     }
     
@@ -72,7 +72,6 @@ const step = function () {
 };
 
 const render = function () {
-    console.log("rendering");
     clearCanvas(canvas);
     for (let index in snake) {
         ctx.drawImage(snake[index].image, snake[index].x * 20, snake[index].y * 20);
@@ -116,4 +115,4 @@ render();
 setInterval(function () {
     step();
     render();
-}, 500);
+}, 300);
