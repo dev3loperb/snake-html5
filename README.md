@@ -1,3 +1,3 @@
 # Snake: HTML5 canvas based game
 
-<iframe src="./index.html" width="1000" height="1000"></iframe>
+Visit to see it in action: https://ipergenitsa.github.io/snake-html5/
